@@ -1,9 +1,9 @@
-name: "Ohmywall_Backend"
+name: example/hello
 
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build:
@@ -16,10 +16,10 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: 1.23
+          go-version: 1.22
 
       - name: Build
-        run: go build -o main
+        run: go build -o master
 
       - name: Test
         run: go test ./...
@@ -30,7 +30,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Copy files to VM
-        run: scp -r ./main azureuser@172.172.246.184:/home/azureuser/project
+        run: scp -r ./master azureuser@172.172.246.184:/home/azureuser/project
 
       - name: Restart Backend Service
         run: ssh azureuser@172.172.246.184 'sudo systemctl restart your-backend-service'
